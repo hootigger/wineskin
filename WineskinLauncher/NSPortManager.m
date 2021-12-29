@@ -556,11 +556,21 @@
     NSMutableArray* registries = [[registry componentsSeparatedByString:@"\n"] mutableCopy];
     [registries removeObject:@""];
     
-    [registries replaceObjectsWithVariation:^id(id object, NSUInteger index)
-     {
-         if ([object hasPrefix:@"@="]) return @"@";
-         return [object getFragmentAfter:@"\"" andBefore:@"\"="];
-     }];
+//    [registries replaceObjectsWithVariation:^id(id object, NSUInteger index)
+//     {
+//         if ([object hasPrefix:@"@="]) return @"@";
+//         return [object getFragmentAfter:@"\"" andBefore:@"\"="];
+//     }];
+    // upstream 方法删除
+    for (NSUInteger index = 0; index < registries.count; index++)
+    {
+        id object = [registries objectAtIndex:index];
+        id newObject = object;
+        if ([object hasPrefix:@"@="]) newObject = @"@";
+        newObject = [object getFragmentAfter:@"\"" andBefore:@"\"="];
+        [registries replaceObjectAtIndex:index withObject:newObject ? newObject : [NSNull null]];
+    }
+    
     
     return registries;
 }
