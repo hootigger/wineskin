@@ -562,16 +562,10 @@
 //         return [object getFragmentAfter:@"\"" andBefore:@"\"="];
 //     }];
     // upstream 方法删除
-    for (NSUInteger index = 0; index < registries.count; index++)
-    {
-        id object = [registries objectAtIndex:index];
-        id newObject = object;
-        if ([object hasPrefix:@"@="]) newObject = @"@";
-        newObject = [object getFragmentAfter:@"\"" andBefore:@"\"="];
-        [registries replaceObjectAtIndex:index withObject:newObject ? newObject : [NSNull null]];
-    }
-    
-    
+    [registries map:^id _Nullable(id  _Nonnull object) {
+        if ([object hasPrefix:@"@="]) return @"@";
+        return [object getFragmentAfter:@"\"" andBefore:@"\"="];
+    }];
     return registries;
 }
 

@@ -176,8 +176,13 @@ static NSString *const REGEX_VALID_WINE_VERSION =                    @"[0-9]+(\\
         wineskinEngines = [self getListOfAvailableEnginesOffline];
         wineskinEngines = [[wineskinEngines arrayByRemovingRepetitions] mutableCopy];
         
-        [wineskinEngines replaceObjectsWithVariation:^NSWineskinEngine*(NSString* object, NSUInteger index)
-        {
+//        [wineskinEngines replaceObjectsWithVariation:^NSWineskinEngine*(NSString* object, NSUInteger index)
+//        {
+//            return [NSWineskinEngine wineskinEngineWithString:object];
+//        }];
+        
+        // fix
+        [wineskinEngines map:^id _Nullable(id  _Nonnull object) {
             return [NSWineskinEngine wineskinEngineWithString:object];
         }];
         
@@ -199,8 +204,17 @@ static NSString *const REGEX_VALID_WINE_VERSION =                    @"[0-9]+(\\
             return NSOrderedSame;
         }];
         
-        [wineskinEngines replaceObjectsWithVariation:^NSWineskinEngine*(NSWineskinEngine* object, NSUInteger index)
-        {
+//        [wineskinEngines replaceObjectsWithVariation:^NSWineskinEngine*(NSWineskinEngine* object, NSUInteger index)
+//        {
+//            if ([object isKindOfClass:[NSWineskinEngine class]] == false)
+//            {
+//                return nil;
+//            }
+//
+//            return object;
+//        }];
+        
+        [wineskinEngines map:^id _Nullable(id  _Nonnull object) {
             if ([object isKindOfClass:[NSWineskinEngine class]] == false)
             {
                 return nil;

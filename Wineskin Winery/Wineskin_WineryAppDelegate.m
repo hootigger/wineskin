@@ -389,7 +389,13 @@
     [installedEnginesList addObjectsFromArray:[NSWineskinEngine getListOfAvailableEngines]];
     
     installedMacDriverEnginesList = [installedEnginesList mutableCopy];
-    [installedMacDriverEnginesList replaceObjectsWithVariation:^id _Nullable(NSWineskinEngine * _Nonnull object, NSUInteger index) {
+    
+//    [installedMacDriverEnginesList replaceObjectsWithVariation:^id _Nullable(NSWineskinEngine * _Nonnull object, NSUInteger index) {
+//        if (object.isCompatibleWithMacDriver) return object;
+//        return nil;
+//    }];
+    // fix
+    [installedMacDriverEnginesList map:^id _Nullable(id  _Nonnull object) {
         if (object.isCompatibleWithMacDriver) return object;
         return nil;
     }];
